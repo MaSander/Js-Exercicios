@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+
+<head>
+
+    <title>InLock - Personagens</title>
+
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <table id="tabela-lista">
+        <thead>
+            <tr>
+                <th>#</th>
+                <th>Título</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+
+        <tbody id="tabela-lista"></tbody>
+    </table>
+
+    <script>
+    
+        const URL = 'https://salty-atoll-57329.herokuapp.com/personagens';
+
+        fetch(URL, {method : 'GET'})
+        .then(resposta => resposta.json())
+        .then(data => preencherDados(data))
+        .catch(erro => console.log(erro));
+
+        let tabela = document.querySelector("#tabela-lista")
+
+        function preencherDados(herois){
+            herois.forEach(element => {
+
+            let novaLinha = document.createElement("tr");
+
+            //---------------
+            let colunaId = document.createElement("td");
+            colunaId.innerText = element.nome;
+
+            //---------------
+            let colunaTitulo = document.createElement("td");
+            colunaTitulo.innerText = element.lancamento;
+
+            //---------------
+            let colunaAcao = document.createElement("td")
+            colunaAcao.innerHTML = "<img src='"+ element.urlImagem + "' width=\'400px\' height=\'150px\'>";
+
+            novaLinha.appendChild(colunaId);
+            novaLinha.appendChild(colunaTitulo);
+            novaLinha.appendChild(colunaAcao);
+            tabela.appendChild(novaLinha);
+        });
+        }
+
+        // console.log(data);
+    
+    </script>
+
+</body>
+
+</html>

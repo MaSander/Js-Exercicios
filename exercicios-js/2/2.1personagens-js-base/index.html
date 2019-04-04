@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<head>
+
+    <title>Exercícios</title>
+
+    <style>
+        body {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <script>
+        let personagens = [{
+            nome: "Capitão Cometa",
+            dataAparicao: 1951,
+            editora: "DC"
+        }, {
+            nome: "Lanterna Verde",
+            dataAparicao: 1940,
+            editora: "DC"
+        }, {
+            nome: "Ciborgue",
+            dataAparicao: 1980,
+            editora: "DC"
+        }, {
+            nome: "Homem Aranha",
+            dataAparicao: 1962,
+            editora: "Marvel"
+        }, {
+            nome: "Homem de Ferro",
+            dataAparicao: 1963,
+            editora: "Marvel"
+        }, {
+            nome: "Capitão América",
+            dataAparicao: 1940,
+            editora: "Marvel"
+        }];
+
+        // let personagensMarvel = personagens.filter(heroi => heroi.editora == "Marvel");
+        // console.log(personagensMarvel);
+
+        // let aparicaoM50 = personagens.filter(herois => herois.dataAparicao > 1950);
+        // console.log(aparicaoM50);
+
+        let personagensNome = personagens.map(herois => herois.nome);
+        // console.log(personagensNome);
+
+        personagens.push({
+            nome: "Capitã Marvel",
+            dataAparicao: 1977,
+            editora: "Marvel"
+        });
+
+        console.log(personagens);
+
+        console.log(personagens.length);
+
+
+        let idades = [];
+
+        let calculoIdade = 0;
+
+        for(let i = 0; i < personagens.length; i++){
+
+            calculoIdade = 2019 - personagens[i].dataAparicao;
+            idades.push(calculoIdade);
+        };
+
+        console.log(idades);
+
+        // personagens = idades.map(idade => idade);
+
+        let nomeIdade = [];
+
+        for(let i = 0; i < idades.length; i++){
+            nomeIdade.push({
+                nome: personagensNome[i]
+                ,idade: idades[i]
+            });
+        }
+
+        console.log(nomeIdade);
+
+    </script>
+
+</body>
+
+</html>
