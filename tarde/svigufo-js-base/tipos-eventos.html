@@ -54,7 +54,7 @@
             <h2 class="conteudoPrincipal-cadastro-titulo">
               Cadastrar Tipo de Evento
             </h2>
-            <form method="POST" id="form" >
+            <form>
               <div class="container">
                 <input
                   type="text"
@@ -82,83 +82,79 @@
     </div>
 
     <script>
+      // let tiposEventos = [
+      //             { "id": 3, "nome": "Linkedin" },
+      //             { "id": 1, "nome": "Outro Evento" },
+      //             { "id": 2, "nome": "Web Design" }
+      //         ];
 
-        // let tiposEventos = [
-          	
-        //   {"id":	3, "nome":	"Linkedin"},
+    //   function sucesso() {
+    //     var data = JSON.parse(this.responseText);
+    //     console.log(data);
+    //     preencherDados(data);
+    //   }
 
-        //   {"id":	1, "nome":	"Outro Evento"},
+    //   function erro(err) {
+    //     console.log("Um erro ocorreu: " + err, err);
+    //   }
 
-        //   {"id": 2, "nome":	"Web Design"}
-        // ];
+    //   var xhr = new XMLHttpRequest();
+    //   xhr.onload = sucesso; // sucesso
+    //   xhr.onerror = erro; // erro
+    //   xhr.open("GET", "http://192.168.4.112:5000/api/tiposeventos");
+    //   xhr.send();
 
-        // function sucesso() {
-        //     var data = JSON.parse(this.responseText);
-        //     console.log(data);
-        //     preencherDados(data)
-        // };
+    const URL = 'http://192.168.4.112:5000/api/tiposeventos';
 
-        // function erro(err) {
-        //   console.log('um erro ocorreu: ' + err, err);
-        //   alert("erro erro erro erro erro erro");
-        // }
+    function carregaListaTiposEventos(){
+      //Como default é GET, não precisa informar o GET na chamada
+      fetch(URL, { method : 'GET' })
+      .then(resposta => resposta.json()) //Pega a resposta da api
+      .then(data => preencherDados(data)) //Pega os dados da resposta e chama a função para criar tabela
+      .catch(erro => console.log('Erro Tipos Eventos', erro)); //Ocorreu um erro
+    }
 
-        // var xhr = new XMLHttpRequest();
-        // xhr.onload = sucesso;// sucesso
-        // xhr.onerror = erro;// erro
-        // xhr.open('GET', 'http://192.168.4.112:5000/api/tiposeventos');
-        // xhr.send();
+    carregaListaTiposEventos();
 
-        const URL = 'http://192.168.4.112:5000/api/tiposeventos';
+    let tabela = document.querySelector("#tabela-lista-corpo");
+    let form = document.querySelector("#form");
+    
+    form.addEventListener("submit", function(event){
+      event.preventDefault();
 
-        fetch(URL, {method : 'GET'})
-        .then(resposta => resposta.json())
-        .then(data => preencherDados(data))
-        .catch(erro => console.log('Erro Tipos Eventos', erro));
+      let tipoEvento = {
+        nome : document.querySelector("#nome-tipo-evento").value
+      }
 
+      fetch(URL, {
+        method : 'POST',
+        body : JSON.stringify(tipoEvento),
+        headers : {
+          "Content-Type" : "application/json"
+        }
+      })
+      .then(resposta => console.log(resposta))
+      .then(data => carregaListaTiposEventos())
+      .catch(erro => console.log(erro))
+    });
 
-        let tabela = document.querySelector("#tabela-lista-corpo");
-        let form = document.querySelector("#form");
-
-        form.addEventListener('submit', function(event){
-          event.preventDefault();
-
-          let tipoEvento = {
-            nome : document.querySelector("#nome-tipo-evento")
-          }
-
-          fetch(URL, {
-            method : 'POST'
-            ,body : JSON.stringify(tipoEvento)
-            ,headers : {
-                "Content-Type" : "application/json"
-            }
-          })
-          .then(resposta => console.log(resposta))
-          .then(data => console.log(data))
-          .catch(erro => console.log(erro))
-        });
-
-        function preencherDados(tiposEventos){
+    function preencherDados(tiposEventos) {
+        tabela.innerText = "";
         tiposEventos.forEach(element => {
-          //cria uma linha
+          // criar uma linha
           let novaLinha = document.createElement("tr");
           // crio a coluna
           let colunaId = document.createElement("td");
-          //atribuio um valor a coluna
+          // atribuo um valor a coluna
           colunaId.innerText = element.id;
-
           let colunaNome = document.createElement("td");
           colunaNome.innerText = element.nome;
-
           novaLinha.appendChild(colunaId);
           novaLinha.appendChild(colunaNome);
           tabela.appendChild(novaLinha);
-
         });
-        }
+      }
 
     </script>
-
   </body>
 </html>
